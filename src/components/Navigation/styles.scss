@@ -1,0 +1,13 @@
+@import "../../scss/variables.scss";
+
+.primary-nav  {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    padding: 2rem 0;
+    background-color: white;
+
+    a {
+        color: $color-blue-1;
+    }
+}
