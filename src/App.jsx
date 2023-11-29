@@ -5,14 +5,14 @@ import './scss/core.scss';
 import './scss/default.scss';
 
 function App() {
-  	return <>
-		<Navigation />
-    	<div className='app'>
-      		<Routes>
-			  	{navigationItems.map((item, i) => <Route key={i} path={item.path} element={item.element()} />)}
-			</Routes>
-    	</div>
-	</>
+    return <>
+        <Navigation />
+        <div className='app'>
+            <Routes>
+                {navigationItems.map((item, i) => <Route key={i} path={item.path} element={item.element()} />)}
+            </Routes>
+        </div>
+    </>
 }
 
-export default App
+export default App;
