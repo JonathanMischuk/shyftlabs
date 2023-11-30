@@ -1,13 +1,25 @@
 @import "../../scss/variables.scss";
 
 .primary-nav  {
+    position: sticky;
+    top: 0;
     display: flex;
     justify-content: center;
-    gap: 1rem;
+    gap: 2rem;
     padding: 2rem 0;
-    background-color: white;
-
+    background-color: $color-grey-2;
+    font-size: 1.2rem;
+    
     a {
+        padding: 1rem;
         color: $color-blue-1;
+
+        &:hover {
+            text-decoration: underline;
+        }
+
+        &.active {
+            color: $color-blue-2;
+        }
     }
 }

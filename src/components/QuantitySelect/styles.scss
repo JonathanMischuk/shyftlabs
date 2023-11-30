@@ -1,0 +1,14 @@
+.quantity-select {
+    padding: 1rem 0;
+
+    select {
+        height: 2rem;
+        width: 4.5rem;
+        outline: none;
+    }
+
+    .title {
+        font-weight: bold;
+        font-size: 1rem;
+    }
+}

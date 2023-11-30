@@ -3,6 +3,7 @@ import Navigation from './components/Navigation/Navigation';
 import navigationItems from './data/navigation';
 import './scss/core.scss';
 import './scss/default.scss';
+import './scss/utilities.scss';
 
 function App() {
     return <>

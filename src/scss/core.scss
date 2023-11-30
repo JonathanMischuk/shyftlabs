@@ -1,9 +1,19 @@
+@import "./variables.scss";
+
 .app {
 	display: flex;
 	justify-content: space-around;
 	width: 100%;
 
 	.content {
+		display: flex;
+		flex-direction: column;
+		max-width: 1280px;
 		width: 1280px;
+		padding: 0 1rem;
+
+		h1 {
+			color: $color-blue-1;
+		}
 	}
 }

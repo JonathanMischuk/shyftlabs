@@ -1,0 +1,22 @@
+@import "../../scss/variables.scss";
+
+.button {
+    background-color: $color-blue-1;
+    color: white;
+    border: 1px solid white;
+    border-radius: 0.5rem;
+
+    &[disabled] {
+        background-color: $color-grey-2;
+        color: $color-blue-2;
+    }
+
+    &.light-blue {
+        background-color: $color-blue-2;
+
+        &[disabled] {
+            background-color: $color-grey-2;
+            color: $color-blue-2;
+        }
+    }
+}
