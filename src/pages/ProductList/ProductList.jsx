@@ -1,14 +1,14 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addedToList } from "../../state/slices/productsSlice";
+import { addToList } from "../../state/slices/productsSlice";
 import ProductListItem from "./components/ProductListItem";
 import FetchError from "../../components/FetchError/FetchError";
 import useIntersectionObserver from "../../hooks/useIntersectionObserver";
-import { getProducts } from "../../services/fakeStore";
+import { getProductsLimit } from "../../services/fakeStore";
+import { PAGINATION_LIMIT, MAX_PAGINATION_ITEMS } from "../../config";
 import "./styles.scss";
 
 function ProductList() {
-    const maxPaginationCount = 5;
     const dispatch = useDispatch();
     const firstRunRef = useRef(true);
     const { isIntersecting, observerRef } = useIntersectionObserver();
@@ -16,51 +16,58 @@ function ProductList() {
     const [error, setError] = useState(null);
     const productsList = useSelector(state => state.productsList);
 
-    const fetchProducts = async () => {
+    // memoize the following functions that are used inside a useeffect
+    const lessThanMaxPaginationItems = useCallback(() => {
+        const nextCount = productsList.length + PAGINATION_LIMIT;
+        return nextCount <= MAX_PAGINATION_ITEMS;
+    }, [productsList.length]);
+
+    const fetchProducts = useCallback(async () => {
         setIsLoading(true);
         setError(null);
 
-        const { error, response } = await getProducts();
+        const { error, response } = await getProductsLimit(PAGINATION_LIMIT);
 
         if (error) setError(error);
         if (response) {
-            dispatch(addedToList({ paginationCount: productsList.paginationCount + 1, products: [...response] }));
+            dispatch(addToList([...response]));
             setIsLoading(false);
         }
-    };
+    }, [dispatch]);
     
     // prevent double loading products on mount. React StrictMode causes a double render of
     // pure components in development mode. However, using this condition will prevent
     // double loading if something else is the cause as well.
     useEffect(() => {
-       if (firstRunRef.current && !isLoading && productsList.products.length === 0) {
+       if (firstRunRef.current && !isLoading && productsList.length === 0) {
             firstRunRef.current = false;
             fetchProducts();
         } else {
             setIsLoading(false);
         }
-    }, []); 
+    }, [fetchProducts]); 
 
-    // managing pagination logic and side effects on observer intersection
+    // managing "infinite" scrolling and pagination logic
+    // and side effects with an observer intersection
     useEffect(() => {
-        if (isIntersecting && !isLoading && productsList.paginationCount < maxPaginationCount) {
+        if (isIntersecting && !isLoading && lessThanMaxPaginationItems()) {
             fetchProducts();
         }
-    }, [isIntersecting]);
+    }, [fetchProducts, isIntersecting, lessThanMaxPaginationItems]);
 
     return <div className="content">
         <h1>Product List</h1>
-        <span className="product-list-item-count">Showing {productsList.products.length} of 100</span>
+        <span className="product-list-item-count">Showing {productsList.length} of 100</span>
 
         {error && <FetchError />}
 
         <div className="product-list-items">
-            {productsList.products.map((product, i) => {
+            {productsList.map((product, i) => {
                 return <ProductListItem key={i} {...product} />
             })}
         </div>
 
-        {productsList.paginationCount < maxPaginationCount && <div className="product-list-items-observer" ref={observerRef}></div>}
+        {lessThanMaxPaginationItems() && <div className="product-list-items-observer" ref={observerRef}></div>}
     </div>
 }
 

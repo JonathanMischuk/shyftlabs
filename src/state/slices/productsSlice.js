@@ -1,20 +1,21 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
-    paginationCount: 0,
-    products: []
-}
+// { same object properties from the fakestore response }
+const initialState = [];
 
+// cache product list so user does not have to scroll through
+// content again to view results they have already seen
+// this currently does come with a performance tradeoff
+// during the render cycle as there are more dom elements
 const productsListSlice = createSlice({
     name: 'productsList',
     initialState,
     reducers: {
-        addedToList (state, action) {
-            state.paginationCount = action.payload.paginationCount;
-            state.products.push(...action.payload.products);
+        addToList (state, action) {
+            state.push(...action.payload);
         }
     }
 });
 
-export const { addedToList } = productsListSlice.actions;
+export const { addToList } = productsListSlice.actions;
 export default productsListSlice.reducer;

@@ -1,9 +1,11 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addedToCart, removedFromCart } from '../../../state/slices/cartSlice';
+import { addToCart, removeFromCart } from '../../../state/slices/cartSlice';
+import ProductListItemDescription from './ProductListItemDescription';
 import Button from '../../../components/Button/Button';
 import QuantitySelect from '../../../components/QuantitySelect/QuantitySelect';
-import { maxItems } from '../../../config';
+import { hasOwnProperty } from '../../../utils';
+import { MAX_SELECTABLE_ITEMS } from '../../../config';
 
 function ProductListItem({ title, description, price, id }) {
     const cart = useSelector(state => state.cart);
@@ -12,10 +14,14 @@ function ProductListItem({ title, description, price, id }) {
     const [selectedQuantity, setSelectedQuantity] = useState(1);
     const [addToCartDisabled, setAddToCartDisabled] = useState(false);
     const [removeFromCartDisabled, setRemoveFromCartDisabled] = useState(false);
-    const reachedQuantityLimit = () => getCurrentQuantity() >= maxItems;
+    const reachedQuantityLimit = () => getCurrentQuantity() >= MAX_SELECTABLE_ITEMS;
+
+    const getCurrentQuantity = useCallback(() => {
+        return hasOwnProperty(cart, id) ? Number(cart[id].quantity) : 0;
+    }, [cart, id]);
 
     // intended to enable or disable add to cart and remove from cart buttons
-    // on state change if selected quantity is greater than maxItems or
+    // on state change if selected quantity is greater than MAX_SELECTABLE_ITEMS or
     // less than 0
     useEffect(() => {
         const _currentQuantity = getCurrentQuantity();
@@ -23,9 +29,9 @@ function ProductListItem({ title, description, price, id }) {
         if (_currentQuantity === 0 || selectedQuantity > _currentQuantity) setRemoveFromCartDisabled(true);
         else setRemoveFromCartDisabled(false);
 
-        if (_currentQuantity + selectedQuantity > maxItems) setAddToCartDisabled(true);
+        if (_currentQuantity + selectedQuantity > MAX_SELECTABLE_ITEMS) setAddToCartDisabled(true);
         else setAddToCartDisabled(false);
-    }, [cart, selectedQuantity]);
+    }, [cart, selectedQuantity, getCurrentQuantity]);
 
     const onChangeHandler = () => {
         setSelectedQuantity(Number(quantityRef.current.value));
@@ -37,10 +43,10 @@ function ProductListItem({ title, description, price, id }) {
         
         // make sure sum is not more than item limit
         const sum = quantity + _currentQuantity;
-        if (_currentQuantity >= maxItems || sum > maxItems) return;
+        if (_currentQuantity >= MAX_SELECTABLE_ITEMS || sum > MAX_SELECTABLE_ITEMS) return;
         
         // don't dispatch if value is zero
-        if (quantity > 0) dispatch(addedToCart({ title, description, price, id, quantity }));
+        if (quantity > 0) dispatch(addToCart({ title, description, price, id, quantity }));
     };
 
     const removeFromCartClickHandler = () => {
@@ -51,41 +57,29 @@ function ProductListItem({ title, description, price, id }) {
         const difference = _currentQuantity - _quantity;
         if (_currentQuantity <= 0 || difference < 0) return;
 
-        if (_quantity > 0) dispatch(removedFromCart({ id, quantity: _quantity }));
-    };
-
-    const getCurrentQuantity = () => {
-        return cart.hasOwnProperty(id) ? Number(cart[id].quantity) : 0;
-    };
-
-    const getFormattedDescription = () => {
-        if (description.length > 256) return description.substring(0, 256) + '...';
-
-        console.log(description)
-
-        return description;
+        if (_quantity > 0) dispatch(removeFromCart({ id, quantity: _quantity }));
     };
 
     return <div className="product-list-item">
         <span>
             <h3>{title}</h3>
-            <p>{getFormattedDescription()}</p>
+            <p><ProductListItemDescription description={description} /></p>
             <p className='bold'>Price: ${price}</p>
         </span>
 
         <span className='product-list-item-form-group'>
             <span className='flex-col flex-gap-half'>
-                <QuantitySelect quantityRef={quantityRef} min={1} maxItems={maxItems} onChangeHandler={onChangeHandler} />
+                <QuantitySelect quantityRef={quantityRef} min={1} onChangeHandler={onChangeHandler} />
 
                 <span>In cart: {getCurrentQuantity()}</span>
             </span>
 
             <span className='product-list-item-button-group'>
-                <Button className='button' isDisabled={reachedQuantityLimit() || addToCartDisabled} clickHandler={addToCartClickHandler}>
+                <Button isDisabled={reachedQuantityLimit() || addToCartDisabled} clickHandler={addToCartClickHandler}>
                     Add to cart
                 </Button>
 
-                <Button className='button light-blue' isDisabled={removeFromCartDisabled} clickHandler={removeFromCartClickHandler}>
+                <Button className='light-blue' isDisabled={removeFromCartDisabled} clickHandler={removeFromCartClickHandler}>
                     Remove
                 </Button>
             </span>

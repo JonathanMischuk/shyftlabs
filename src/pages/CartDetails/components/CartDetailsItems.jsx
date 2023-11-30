@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
-import { clearedCart } from "../../../state/slices/cartSlice";
+import { clearCart } from "../../../state/slices/cartSlice";
 import CartDetailsItem from "./CartDetailsItem";
 import Button from "../../../components/Button/Button";
 
@@ -15,11 +15,13 @@ const CartDetailsItems = () => {
     const isDisabled = Object.keys(cart).length === 0;
 
     const renderCartDetailItems = () => {
+        // this list changes based on user interaction so key values
+        // must be unique and not just an index value from a loop
         return Object.keys(cart).map(key => <CartDetailsItem key={cart[key].id} {...cart[key]} />);
     };
 
     const onClickHandler = () => {
-        dispatch(clearedCart());
+        dispatch(clearCart());
     };
 
     if (Object.keys(cart).length === 0) return <CartDetailsEmpty />;
