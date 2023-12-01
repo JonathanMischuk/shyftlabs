@@ -3,6 +3,7 @@ import { render, screen, act } from '@testing-library/react';
 import { addToList } from '../../../state/slices/productsSlice';
 import { store } from '../../../state';
 import ProductList from '../ProductList';
+import { PAGINATION_LIMIT } from '../../../config';
 
 const mockItem = {
     "id": 13,
@@ -56,9 +57,9 @@ test('Product List will contain 20 items', async () => {
     expect(screen.getAllByText(/Showing 0 of 100/i)).toBeTruthy();
     
     act(() => {
-        store.dispatch(addToList(new Array(20).fill(mockItem)));
+        store.dispatch(addToList(new Array(PAGINATION_LIMIT).fill(mockItem)));
     });
     
-    expect(screen.getAllByText(/Acer/i).length).toBe(20);
     expect(screen.getAllByText(/Acer/i)).toBeTruthy();
+    expect(screen.getAllByText(/Acer/i).length).toBe(PAGINATION_LIMIT);
 });
