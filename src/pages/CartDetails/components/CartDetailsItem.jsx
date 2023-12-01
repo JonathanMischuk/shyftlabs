@@ -12,8 +12,8 @@ const CartDetailsItem = ({ title, description, price, id, quantity, image }) => 
     };
 
     return <div className="cart-details-item">
-        <span><img src={image} alt="" /></span>
-        
+        <span className="cart-details-item-image"><img src={image} alt="" /></span>
+
         <span className="first">
             <h3>{title}</h3>
 

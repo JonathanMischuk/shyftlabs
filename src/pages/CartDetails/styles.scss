@@ -17,12 +17,17 @@
         }
 
         img {
-            max-width: 100%;
+            max-width: 80%;
             border-radius: 0.5rem;
         }
 
         @media screen and (max-width: 480px) {
             grid-template-columns: 1fr;
+        }
+
+        .cart-details-item-image {
+            display: flex;
+            justify-content: center;
         }
 
         .amount {
