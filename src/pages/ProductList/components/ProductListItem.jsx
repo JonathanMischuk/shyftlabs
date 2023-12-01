@@ -63,7 +63,7 @@ function ProductListItem({ title, description, price, id, image }) {
     return <div className="product-list-item">
         <span>
             <h3>{title}</h3>
-            <img src={image} alt="" />
+            <span className='product-list-item-image'><img src={image} alt="" /></span>
             <p><ProductListItemDescription description={description} /></p>
             <p className='bold'>Price: ${price}</p>
         </span>
