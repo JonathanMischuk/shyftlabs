@@ -3,15 +3,17 @@ import { useDispatch } from "react-redux";
 import { updateCart } from "../../../state/slices/cartSlice";
 import QuantitySelect from "../../../components/QuantitySelect/QuantitySelect";
 
-const CartDetailsItem = ({ title, description, price, id, quantity }) => {
+const CartDetailsItem = ({ title, description, price, id, quantity, image }) => {
     const dispatch = useDispatch();
     const quantityRef = useRef(null);
 
     const onChangeHandler = () => {
-        dispatch(updateCart({ title, description, price, id, quantity: Number(quantityRef.current.value) }));
+        dispatch(updateCart({ title, description, price, id, image, quantity: Number(quantityRef.current.value) }));
     };
 
     return <div className="cart-details-item">
+        <span><img src={image} alt="" /></span>
+        
         <span className="first">
             <h3>{title}</h3>
 

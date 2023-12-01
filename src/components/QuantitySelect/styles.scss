@@ -2,9 +2,11 @@
     padding: 1rem 0;
 
     select {
-        height: 2rem;
-        width: 4.5rem;
+        height: auto;
+        width: 6rem;
         outline: none;
+        font-size: 1.14rem;
+        padding: 0.5rem;
     }
 
     .title {

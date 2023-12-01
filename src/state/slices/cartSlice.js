@@ -7,6 +7,7 @@ type StateItem = {
     title: string
     description: string
     price: number
+    image: HTMLImageElement
     id: number
 }
 

@@ -40,6 +40,13 @@
             margin: 0;
         }
 
+        img {
+            max-width: 100%;
+            max-height: 30%;;
+            margin-top: 1.5rem;
+            border-radius: 0.5rem;
+        }
+
         .product-list-item-form-group {
             display: flex;
             flex-direction: column;

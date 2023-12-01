@@ -35,10 +35,10 @@ __Quick Summary:__
  - `npm run test` - run jest tests
  - `npm run lint` - lint project directory
 
-__Things I would have liked to do:__
+__Things I would like to do:__
 
- - Use __TypeScript__ for a more safe and satisfying development experience. You don't realize how much you miss it until you start a project without it.
- - Use __CSS modules__ or __Styled-Components__ for proper tree shaking and lexical scoping.
- - Add more visual notifications for select box on change events
+ - Use __TypeScript__ for a more safe and satisfying development experience. I didn't realize how much I missed it until starting a project without it.
+ - Use __CSS modules__ or __Styled-Components__ potentially for proper tree shaking and lexical scoping.
  - More testing - e2e and unit tests.
- - Think of some alternative ways to load the product list cache more performantly
+ - Add more visual flare, some more styling.
+ - Think of some alternative ways to load the product list cache more performantly.

@@ -1,6 +1,6 @@
 import { hasOwnProperty } from "..";
 
-it('hasOwnProperty returns true', () => {
+test('hasOwnProperty returns true', () => {
     const obj = {
         a: '',
         b: '',

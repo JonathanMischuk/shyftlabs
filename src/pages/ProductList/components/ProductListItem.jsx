@@ -7,7 +7,7 @@ import QuantitySelect from '../../../components/QuantitySelect/QuantitySelect';
 import { hasOwnProperty } from '../../../utils';
 import { MAX_SELECTABLE_ITEMS } from '../../../config';
 
-function ProductListItem({ title, description, price, id }) {
+function ProductListItem({ title, description, price, id, image }) {
     const cart = useSelector(state => state.cart);
     const dispatch = useDispatch();
     const quantityRef = useRef(null);
@@ -46,7 +46,7 @@ function ProductListItem({ title, description, price, id }) {
         if (_currentQuantity >= MAX_SELECTABLE_ITEMS || sum > MAX_SELECTABLE_ITEMS) return;
         
         // don't dispatch if value is zero
-        if (quantity > 0) dispatch(addToCart({ title, description, price, id, quantity }));
+        if (quantity > 0) dispatch(addToCart({ title, description, price, id, quantity, image }));
     };
 
     const removeFromCartClickHandler = () => {
@@ -63,6 +63,7 @@ function ProductListItem({ title, description, price, id }) {
     return <div className="product-list-item">
         <span>
             <h3>{title}</h3>
+            <img src={image} alt="" />
             <p><ProductListItemDescription description={description} /></p>
             <p className='bold'>Price: ${price}</p>
         </span>
