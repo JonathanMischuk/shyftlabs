@@ -12,7 +12,7 @@ const CartDetailsItems = () => {
     const cart = useSelector(state => state.cart);
     const getSubtotal = (acc, next) => acc + cart[next].price * cart[next].quantity;
     const subtotal = Object.keys(cart).reduce(getSubtotal, 0).toFixed(2);
-    const isDisabled = Object.keys(cart).length === 0;
+    const isCartEmpty = Object.keys(cart).length === 0;
 
     const renderCartDetailItems = () => {
         // this list changes based on user interaction so key values
@@ -24,13 +24,13 @@ const CartDetailsItems = () => {
         dispatch(clearCart());
     };
 
-    if (Object.keys(cart).length === 0) return <CartDetailsEmpty />;
+    if (isCartEmpty) return <CartDetailsEmpty />;
 
     return <div className="cart-details-items">
         {renderCartDetailItems()}
 
         <span className="cart-details-items-footer">
-            <Button clickHandler={onClickHandler} isDisabled={isDisabled}>Empty cart</Button>
+            <Button clickHandler={onClickHandler} isDisabled={isCartEmpty}>Empty cart</Button>
 
             <span className="cart-details-items-subtotal">
                 Subtotal: ${subtotal}
