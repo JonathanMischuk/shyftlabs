@@ -15,11 +15,13 @@ function ProductListItem({ title, description, price, id, image }) {
     const [addToCartDisabled, setAddToCartDisabled] = useState(false);
     const [removeFromCartDisabled, setRemoveFromCartDisabled] = useState(false);
     const reachedQuantityLimit = () => getCurrentCartQuantity() >= MAX_SELECTABLE_ITEMS;
-
+    
     const getCurrentCartQuantity = useCallback(() => {
         return hasOwnProperty(cart, id) ? Number(cart[id].quantity) : 0;
     }, [cart, id]);
-
+    
+    const hasItemsInCart = getCurrentCartQuantity() > 0;
+    
     // intended to enable or disable add to cart and remove from cart buttons
     // on state change if selected quantity is greater than MAX_SELECTABLE_ITEMS or
     // less than 0
@@ -72,7 +74,7 @@ function ProductListItem({ title, description, price, id, image }) {
             <span className='flex-col flex-gap-half'>
                 <QuantitySelect quantityRef={quantityRef} min={1} onChangeHandler={onChangeHandler} />
 
-                <span>In cart: {getCurrentCartQuantity()}</span>
+                <span className={hasItemsInCart ? 'highlight' : 'normal'}>In cart: {getCurrentCartQuantity()}</span>
             </span>
 
             <span className='product-list-item-button-group'>

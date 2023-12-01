@@ -55,6 +55,11 @@
             flex-wrap: wrap;
             justify-content: start;
             gap: 1rem;
+
+            .highlight {
+                color: $color-blue-2;
+                font-weight: bold;
+            }
         }
 
         .product-list-item-button-group {
