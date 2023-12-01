@@ -13,10 +13,6 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    @media screen and (max-width: 480px) {
-        grid-template-columns: repeat(1, minmax(0, 1fr));
-    }
-
     .product-list-item {
         min-height: 256px;
         padding: 2rem;

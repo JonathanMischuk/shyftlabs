@@ -27,7 +27,7 @@ __Quick Summary:__
  7. The select box on the Cart Details will auto add or remove items on change and there is a clear cart button at the bottom.
  8. The site is responsive with css media queries as well as grid and flexbox containers.
  8. Buttons, select boxes or anchor tags were used for any type of user interactions for accessibility.
- 10. Standard screen size media queries selected were 1280px, 1024px, 768px, and 480px. These sizes helped the product list not look to squeezed.
+ 10. Standard screen size media queries selected were 1280px, 1024px, and 768px. These sizes helped the product list not look to squeezed.
 
  __Scripts:__
 
