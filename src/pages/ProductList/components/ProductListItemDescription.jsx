@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { MAX_PRODUCT_DESCRIPTION_CHARACTER_LENGTH } from '../../../config';
 
+// provides interface for shortening text to a max value
+// and offering the option to show more and hide
 function ProductListItemDescription({ description }) {
     const descriptionLengthOverLimit = description.length > MAX_PRODUCT_DESCRIPTION_CHARACTER_LENGTH;
     const [showAll, setShowAll] = useState(!descriptionLengthOverLimit);

@@ -14,9 +14,9 @@ function ProductListItem({ title, description, price, id, image }) {
     const [selectedQuantity, setSelectedQuantity] = useState(1);
     const [addToCartDisabled, setAddToCartDisabled] = useState(false);
     const [removeFromCartDisabled, setRemoveFromCartDisabled] = useState(false);
-    const reachedQuantityLimit = () => getCurrentQuantity() >= MAX_SELECTABLE_ITEMS;
+    const reachedQuantityLimit = () => getCurrentCartQuantity() >= MAX_SELECTABLE_ITEMS;
 
-    const getCurrentQuantity = useCallback(() => {
+    const getCurrentCartQuantity = useCallback(() => {
         return hasOwnProperty(cart, id) ? Number(cart[id].quantity) : 0;
     }, [cart, id]);
 
@@ -24,40 +24,40 @@ function ProductListItem({ title, description, price, id, image }) {
     // on state change if selected quantity is greater than MAX_SELECTABLE_ITEMS or
     // less than 0
     useEffect(() => {
-        const _currentQuantity = getCurrentQuantity();
+        const currentCartQuantity = getCurrentCartQuantity();
 
-        if (_currentQuantity === 0 || selectedQuantity > _currentQuantity) setRemoveFromCartDisabled(true);
+        if (currentCartQuantity === 0 || selectedQuantity > currentCartQuantity) setRemoveFromCartDisabled(true);
         else setRemoveFromCartDisabled(false);
 
-        if (_currentQuantity + selectedQuantity > MAX_SELECTABLE_ITEMS) setAddToCartDisabled(true);
+        if (currentCartQuantity + selectedQuantity > MAX_SELECTABLE_ITEMS) setAddToCartDisabled(true);
         else setAddToCartDisabled(false);
-    }, [cart, selectedQuantity, getCurrentQuantity]);
+    }, [cart, selectedQuantity, getCurrentCartQuantity]);
 
     const onChangeHandler = () => {
         setSelectedQuantity(Number(quantityRef.current.value));
     };
 
     const addToCartClickHandler = () => {
-        let quantity = Number(quantityRef.current.value);
-        const _currentQuantity = getCurrentQuantity();
+        const selectedQuantity = Number(quantityRef.current.value);
+        const currentCartQuantity = getCurrentCartQuantity();
         
         // make sure sum is not more than item limit
-        const sum = quantity + _currentQuantity;
-        if (_currentQuantity >= MAX_SELECTABLE_ITEMS || sum > MAX_SELECTABLE_ITEMS) return;
+        const sum = selectedQuantity + currentCartQuantity;
+        if (currentCartQuantity >= MAX_SELECTABLE_ITEMS || sum > MAX_SELECTABLE_ITEMS) return;
         
         // don't dispatch if value is zero
-        if (quantity > 0) dispatch(addToCart({ title, description, price, id, quantity, image }));
+        if (selectedQuantity > 0) dispatch(addToCart({ title, description, price, id, quantity: selectedQuantity, image }));
     };
 
     const removeFromCartClickHandler = () => {
-        let _quantity = Number(quantityRef.current.value || 1);
-        const _currentQuantity = getCurrentQuantity();
+        const selectedQuantity = Number(quantityRef.current.value || 1);
+        const currentCartQuantity = getCurrentCartQuantity();
 
         // similar to logic for addToCartClickHandler
-        const difference = _currentQuantity - _quantity;
-        if (_currentQuantity <= 0 || difference < 0) return;
+        const difference = currentCartQuantity - selectedQuantity;
+        if (currentCartQuantity <= 0 || difference < 0) return;
 
-        if (_quantity > 0) dispatch(removeFromCart({ id, quantity: _quantity }));
+        if (selectedQuantity > 0) dispatch(removeFromCart({ id, quantity: selectedQuantity }));
     };
 
     return <div className="product-list-item">
@@ -72,7 +72,7 @@ function ProductListItem({ title, description, price, id, image }) {
             <span className='flex-col flex-gap-half'>
                 <QuantitySelect quantityRef={quantityRef} min={1} onChangeHandler={onChangeHandler} />
 
-                <span>In cart: {getCurrentQuantity()}</span>
+                <span>In cart: {getCurrentCartQuantity()}</span>
             </span>
 
             <span className='product-list-item-button-group'>

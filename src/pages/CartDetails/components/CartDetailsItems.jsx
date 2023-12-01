@@ -10,6 +10,7 @@ const CartDetailsEmpty = () => {
 const CartDetailsItems = () => {
     const dispatch = useDispatch();
     const cart = useSelector(state => state.cart);
+    // loop through each item to find the product of the quantity value and sum up the total
     const getSubtotal = (acc, next) => acc + cart[next].price * cart[next].quantity;
     const subtotal = Object.keys(cart).reduce(getSubtotal, 0).toFixed(2);
     const isCartEmpty = Object.keys(cart).length === 0;

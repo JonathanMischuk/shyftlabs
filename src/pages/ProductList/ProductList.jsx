@@ -8,6 +8,7 @@ import { getProductsLimit } from "../../services/fakeStore";
 import { PAGINATION_LIMIT, MAX_PAGINATION_ITEMS } from "../../config";
 import "./styles.scss";
 
+// root route component
 function ProductList() {
     const dispatch = useDispatch();
     const firstRunRef = useRef(true);
