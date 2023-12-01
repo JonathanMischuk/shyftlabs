@@ -3,10 +3,11 @@
 
 __Instructions to run server:__
 
-1. Clone repository to local disk from Github or with this command in a terminal - `git clone https://github.com/JonathanMischuk/shyftlabs.git`.
-2. In a terminal, run these commands `cd <project-dir>` and `npm i` to install dependencies.
-3. After the dependencies are installed, run this command `npm run dev` to start the server.
-4. A URL will be provided, copy and paste the URL into a browser tab.
+1. Make sure to have the latest or lts version of node.js installed locally. 
+2. Clone repository to local disk from Github or with this command in a terminal - `git clone https://github.com/JonathanMischuk/shyftlabs.git`.
+3. In a terminal, run these commands `cd <project-dir>` and `npm i` to install dependencies.
+4. After the dependencies are installed, run this command `npm run dev` to start the server.
+5. A URL will be provided, copy and paste the URL into a browser tab.
 
 __Technologies used:__
 
