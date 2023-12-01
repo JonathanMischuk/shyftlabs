@@ -68,6 +68,7 @@ function ProductList() {
         </div>
 
         {lessThanMaxPaginationItems() && <div className="product-list-items-observer" ref={observerRef}></div>}
+        {!lessThanMaxPaginationItems() && <span className="product-list-items-end">That's it! No other items in stock.</span>}
     </div>
 }
 
