@@ -43,8 +43,10 @@
         }
 
         .product-list-item-image {
-            display: flex;
-            justify-content: center;
+            display: block;
+            max-height: 256px;
+            overflow: hidden;
+            border-radius: 0 0 0.5rem 0.5rem;
         }
 
         .product-list-item-form-group {
